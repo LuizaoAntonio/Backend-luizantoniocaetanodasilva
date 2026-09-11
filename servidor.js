@@ -21,29 +21,41 @@ app.use(express.json());
 const treinos = [];
 let proximoId = 1;
 
-// ------------------------------------------------------------
-// Validacao
-// Escreva a funcao validarTreino(corpo), que devolve a mensagem
-// de erro quando algo esta errado, ou null quando esta tudo certo.
-// ------------------------------------------------------------
+function validarTreino(corpo) {
+    if (typeof corpo.nome !== 'string' || corpo.nome.trim() === '') {
+        return 'O campo nome e obrigatorio e deve ser um texto .';
+    }
+    if (typeof corpo.duracao !== 'number' || corpo.duracao <= 0) {
+        return 'O campo duracao e obrigatorio e deve ser um numero maior que zero .';
+    }
+    return null;
+}
 
+    app.get('/treinos', (req, res) => {
+        res.status(200).json(treinos);
+    });
 
+    app.get('/treinos/:id', (req, res) => {
+        const id = parseInt(req.params.id);
+        const treino = treinos.find(t => t.id === id);
+        res.status(200).json(treino);
+    })
 
-// ------------------------------------------------------------
-// GET /treinos - lista todos os treinos
-// ------------------------------------------------------------
+    app.post('/treinos', (req , res) => {
+        const erro = validarTreino(req.body);
+            if (erro !== null ){
+                return res.status (400).json({ erro: erro });
+        }
 
-
-
-// ------------------------------------------------------------
-// GET /treinos/:id - busca um treino pelo id (404 se nao existir)
-// ------------------------------------------------------------
-
-
-
-// ------------------------------------------------------------
-// POST /treinos - cria um treino (400 se os dados forem invalidos)
-// ------------------------------------------------------------
+        const treino = {
+            id: proximoId ,
+            nome: req.body.nome ,
+            duracao: req.body.duracao
+        };
+        proximoId = proximoId + 1;
+        treinos.push(treino);
+        res.status(201).json(treino);
+    });
 
 
 
