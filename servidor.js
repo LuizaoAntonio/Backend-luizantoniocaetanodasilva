@@ -57,19 +57,37 @@ function validarTreino(corpo) {
         res.status(201).json(treino);
     });
 
+    app.put('/treinos/:id', (req, res) => {
+        const id = Number(req.params.id);
+        const treino = treinos.find((t) => t.id === id);
 
+        if(treino === undefined){
+            return res.status(404).json({ erro: 'Treino não encontrado.'});
+        }
 
-// ------------------------------------------------------------
-// PUT /treinos/:id - substitui um treino
-// ------------------------------------------------------------
+        const erro = validarTreino(req.body);
 
+        if(erro === null){
+            return res.status(400).json({ erro: erro});
+        }
 
+        treino.nome = req.body.name;
+        treino.duracao = req.body.duracao;
 
-// ------------------------------------------------------------
-// DELETE /treinos/:id - remove um treino
-// ------------------------------------------------------------
+        res.status(200).json(treino);
+    });
 
+    app.delete('/treinos/:id', (req, res) => {
+        const id = Number(req.params.id);
+        const posicao = treinos.findIndex((t) => t.id === id);
 
+        if(posicao === -1){
+            return res.status(404).json({erro: 'Treino não encontrado.'});
+        }
+
+        treinos.splice(posicao, 1);
+        res.status(204).end();
+    });
 
 // ------------------------------------------------------------
 const PORTA = 3000;
