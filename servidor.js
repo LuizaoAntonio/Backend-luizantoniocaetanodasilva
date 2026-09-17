@@ -38,14 +38,19 @@ function validarTreino(corpo) {
     app.get('/treinos/:id', (req, res) => {
         const id = parseInt(req.params.id);
         const treino = treinos.find(t => t.id === id);
+        
+        if(id === undefined){
+            return res.status(404).json({erro:'Treino não encontrado.'});
+        }
         // [PROF] Faltou tratar o 404: se o treino nao existir tem que responder 404 com { erro: ... }. Olha como voce fez no DELETE.
         res.status(200).json(treino);
+        
     })
 
     app.post('/treinos', (req , res) => {
         const erro = validarTreino(req.body);
             if (erro !== null ){
-                return res.status (400).json({ erro: erro });
+                return res.status(400).json({ erro: erro });
         }
 
         const treino = {
@@ -69,12 +74,12 @@ function validarTreino(corpo) {
         const erro = validarTreino(req.body);
 
         // [PROF] Essa condicao ta invertida: do jeito que ta, quando os dados estao CERTOS voce responde 400.
-        if(erro === null){
+        if(erro !== null){
             return res.status(400).json({ erro: erro});
         }
 
         // [PROF] req.body.name? O campo eh nome, em portugues.
-        treino.nome = req.body.name;
+        treino.nome = req.body.nome;
         treino.duracao = req.body.duracao;
 
         res.status(200).json(treino);
