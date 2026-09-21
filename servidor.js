@@ -38,7 +38,7 @@ function validarTreino(corpo) {
 }
 
 app.get('/treinos', (req, res) => {
-    const treinos = db.prepare('SELECT * FROM teinos'). all();
+    const treinos = db.prepare('SELECT * FROM treinos').all();
     res.status(200).json(treinos);
 });
 
@@ -59,8 +59,8 @@ app.post('/treinos', (req , res) => {
     }
 
 const resultado = db
-    .prepare('INSERT INTO treinos (nome, duracao) VALUES (?, ?')
-    .run(req.body.nome, req.body,duracao);
+    .prepare('INSERT INTO treinos (nome, duracao) VALUES (?, ?)')
+    .run(req.body.nome, req.body.duracao);
 
 const nove = db
     .prepare('SELECT * FROM treinos WHERE id = ?')
