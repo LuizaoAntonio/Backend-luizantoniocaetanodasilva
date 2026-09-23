@@ -62,9 +62,9 @@ const resultado = db
     .prepare('INSERT INTO treinos (nome, duracao) VALUES (?, ?)')
     .run(req.body.nome, req.body.duracao);
 
-const nove = db
+const novo = db
     .prepare('SELECT * FROM treinos WHERE id = ?')
-    .get(resultado.lasteInsertRowid);
+    .get(resultado.lastInsertRowid);
 
     res.status(201).json(novo);
 
@@ -94,11 +94,11 @@ app.delete('/treinos/:id', (req, res) => {
     const id = Number(req.params.id);
 
     const treino = db.prepare('SELECT * FROM treinos WHERE id = ?').get(id);
-    if(posicao === -1){
+    if(treino === undefined){
         return res.status(404).json({erro: 'Treino não encontrado.'});
     }
 
-    db.prepare('DELETE * FROM treinos WHERE id = ?').run(id);
+    db.prepare('DELETE FROM treinos WHERE id = ?').run(id);
 
     res.status(204).end();
 });

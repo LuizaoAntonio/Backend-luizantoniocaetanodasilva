@@ -90,3 +90,13 @@ DELETE {{url}}/treinos/99999
 
 ### 12 - Listar de novo pra conferir       -> espera 200
 GET {{url}}/treinos
+
+
+### 13 - Treino massa
+POST {{url}}/treinos
+Content-Type: application/json
+
+{
+    "nome": "Pernocas poderosas",
+    "duracao": 67
+}
