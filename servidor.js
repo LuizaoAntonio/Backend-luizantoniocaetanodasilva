@@ -38,9 +38,25 @@ function validarTreino(corpo) {
 }
 
 app.get('/treinos', (req, res) => {
-    const treinos = db.prepare('SELECT * FROM treinos').all();
+    const minimo = req.query.minimo;
+    const busca = req.query.busca;
+    if(minimo !== undefined){
+    const treinos = db.prepare('SELECT * FROM treinos WHERE duracao >= ?').all(minimo);
+    res.status(200).json(treinos);
+    }
+    else if(busca !== undefined){
+        const termo = `%${busca}%`;
+        const treinos = db.prepare('SELECT * FROM treinos WHERE nome LIKE ?').all(termo);
+        res.status(200).json(treinos);
+    }
+    const treinos = db.prepare('SELECT * FROM treinos ORDER BY duracao DESC').all();
     res.status(200).json(treinos);
 });
+
+app.get('/treinos/total', (req, res) => {
+    const total = db.prepare('SELECT COUNT(*) AS total FROM treinos').get()
+    res.status(200).json(total)
+})
 
 app.get('/treinos/:id', (req, res) => {
     const id = Number(req.params.id);

@@ -49,7 +49,7 @@ Content-Type: application/json
     "duracao": 30
 }
 
-
+GET {{url}}/treinos/total
 ### 7 - Criar com duracao invalida         -> espera 400
 POST {{url}}/treinos
 Content-Type: application/json
@@ -100,3 +100,12 @@ Content-Type: application/json
     "nome": "Pernocas poderosas",
     "duracao": 67
 }
+
+### testado exercicio 1
+GET http://localhost:3000/treinos/total
+
+### testando exercício 2
+GET http://localhost:3000/treinos?minimo=40
+
+### testando exercício 4
+GET http://localhost:3000/treinos?busca=peito
