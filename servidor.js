@@ -58,8 +58,23 @@ app.get('/treinos/total', (req, res) => {
     res.status(200).json(total)
 })
 
+app.get('/treinos/resumo', (req, res) => {
+    const resumo = db.prepare(`
+        SELECT
+            COUNT(*) AS total,
+            SUM(duracao) AS minutos,
+            AVG(duracao) AS media
+        FROM treinos
+    `).get();
+
+    res.status(200).json(resumo);
+});
+
 app.get('/treinos/:id', (req, res) => {
     const id = Number(req.params.id);
+        if (!Number.isInteger(id)) {
+            return res.status(400).json({ erro: 'O id deve ser um número inteiro.' });
+        }
     const treino = db.prepare('SELECT * FROM treinos WHERE id = ?').get(id);
         if(treino === undefined){
             return res.status(404).json({ erro:'Treino não encontrado.' });

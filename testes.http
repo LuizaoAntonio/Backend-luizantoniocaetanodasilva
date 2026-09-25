@@ -109,3 +109,13 @@ GET http://localhost:3000/treinos?minimo=40
 
 ### testando exercício 4
 GET http://localhost:3000/treinos?busca=peito
+
+### testando exercício 5
+GET http://localhost:3000/treinos/resumo
+
+### testando exercício 6
+GET http://localhost:3000/treinos/abc
+
+GET http://localhost:3000/treinos/9999
+
+GET http://localhost:3000/treinos/1
