@@ -88,6 +88,28 @@ export default function Treinos({ onSessaoExpirada }) {
   // ---------------------------------------------------------------
   function aoEnviar(evento) {
     evento.preventDefault();
+    setErro('');
+
+
+    if (nome.trim() === '') {
+      setErro('Digite o nome do treino.');
+      return;
+    }
+
+
+    const duracaoNumero = Number(duracao);
+
+
+    if (
+      !Number.isInteger(duracaoNumero) ||
+      duracaoNumero < 1 ||
+      duracaoNumero > 180
+    ) {
+      setErro('A duração deve ser um número inteiro entre 1 e 180.');
+      return;
+    }
+
+
     enviarNovoTreino();
   }
 
@@ -100,11 +122,22 @@ export default function Treinos({ onSessaoExpirada }) {
         <div className="linha-form">
           <div>
             <label htmlFor="nome">Nome</label>
-            <input id="nome" />
+            <input
+              id="nome"
+              value={nome}
+              onChange={(evento) => setNome(evento.target.value)}
+            />
+
           </div>
           <div>
             <label htmlFor="duracao">Duração (min)</label>
-            <input id="duracao" type="number" />
+            <input
+              id="duracao"
+              type="number"
+              value={duracao}
+              onChange={(evento) => setDuracao(evento.target.value)}
+            />
+
           </div>
           <button type="submit">Adicionar</button>
         </div>
@@ -134,7 +167,13 @@ export default function Treinos({ onSessaoExpirada }) {
         {/* TAREFA 8: a lista. Use treinos.map(...) para gerar um
             <CartaoTreino /> por treino, com key={t.id}, passando as props
             treino, onConcluir={concluir} e onApagar={apagar}. */}
-        <ul className="lista"></ul>
+        <input
+          id="duracao"
+          type="number"
+          value={duracao}
+          onChange={(evento) => setDuracao(evento.target.value)}
+        />
+
       </section>
     </>
   );
